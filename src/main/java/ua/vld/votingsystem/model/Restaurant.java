@@ -1,49 +1,34 @@
 package ua.vld.votingsystem.model;
 
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
 @Table(name = "restaurants")
-public class Restaurant {
-    @Id
-    @GeneratedValue
-    private Integer id;
+public class Restaurant extends NamedEntity {
 
-    @Column(name = "name")
-    private String name;
-
-    @OneToMany(mappedBy = "restaurant")
+    //@LazyCollection(LazyCollectionOption.FALSE)
+    /*@OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant")
     private List<Dish> dishes;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant")
+    private List<Vote> votes;*/
 
     public Restaurant(){
     }
 
     public Restaurant(Integer id, String name) {
-        this.id = id;
-        this.name = name;
+        super(id, name);
     }
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 
     @Override
     public String toString() {
         return "Restaurant{" +
-                "id=" + id +
+                "id=" + getId() +
                 ", name='" + name + '\'' +
                 '}';
     }

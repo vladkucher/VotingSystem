@@ -1,52 +1,39 @@
 package ua.vld.votingsystem.model;
 
+import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
-import java.sql.Date;
+import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
+import java.util.Date;
 
 @Entity
 @Table(name = "dishes")
-public class Dish {
-    @Id
-    @GeneratedValue
-    private Integer id;
-
-    @Column(name = "name")
-    private String name;
-
+public class Dish extends NamedEntity {
+    @NotNull
     @Column(name = "price")
     private Double price;
 
-    @Column(name = "date_time")
-    private Date dateTime;
+    /*@UpdateTimestamp
+    @Temporal(TemporalType.TIMESTAMP)*/
+    @Column(name = "date")
+    @NotNull
+    //@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+    private LocalDate date;
 
-    @ManyToOne(fetch=FetchType.LAZY)
+    @ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn(name="restaurant_id")
     private Restaurant restaurant;
 
     public Dish() {
     }
 
-    public Dish(Integer id, String name, Double price, Date dateTime) {
-        this.id = id;
-        this.name = name;
+    public Dish(Integer id, String name, Double price, LocalDate date, Restaurant restaurant) {
+        super(id, name);
         this.price = price;
-        this.dateTime = dateTime;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+        this.date = date;
+        this.restaurant = restaurant;
     }
 
     public Double getPrice() {
@@ -57,21 +44,30 @@ public class Dish {
         this.price = price;
     }
 
-    public Date getDateTime() {
-        return dateTime;
+    public LocalDate getDate() {
+        return date;
     }
 
-    public void setDateTime(Date dateTime) {
-        this.dateTime = dateTime;
+    public void setDate(LocalDate date) {
+        this.date = date;
+    }
+
+    public Restaurant getRestaurant() {
+        return restaurant;
+    }
+
+    public void setRestaurant(Restaurant restaurant) {
+        this.restaurant = restaurant;
     }
 
     @Override
     public String toString() {
         return "Dish{" +
-                "id=" + id +
+                "id=" + getId() +
                 ", name='" + name + '\'' +
                 ", price=" + price +
-                ", dateTime=" + dateTime +
+                ", date=" + date +
+                ", restaurant=" + restaurant +
                 '}';
     }
 }
