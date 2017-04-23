@@ -1,5 +1,6 @@
 package ua.vld.votingsystem.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -22,7 +23,8 @@ public class Dish extends NamedEntity {
     //@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private LocalDate date;
 
-    @ManyToOne(fetch=FetchType.EAGER)
+    @JsonIgnore
+    @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="restaurant_id")
     private Restaurant restaurant;
 

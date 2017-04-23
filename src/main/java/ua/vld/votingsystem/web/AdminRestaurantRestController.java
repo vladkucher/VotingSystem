@@ -51,7 +51,7 @@ public class AdminRestaurantRestController {
         return ResponseEntity.created(uriOfNewResource).body(created);
     }
 
-    @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public void update(@Valid @RequestBody Restaurant restaurant, @PathVariable("id") int id){
         log.info("update " + restaurant);
         checkIdConsistent(restaurant,id);

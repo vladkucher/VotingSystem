@@ -26,28 +26,18 @@ public class VoteRepository {
         vote.setRestaurant(em.getReference(Restaurant.class,restaurantId));
         vote.setUser(em.getReference(User.class,userId));
         System.out.println(vote);
-        List<Vote> todayVoteList = em.createQuery("SELECT v FROM Vote v WHERE v.user.id=:userId AND v.date=:today AND v.restaurant.id=:restaurantId",Vote.class)
+        List<Vote> todayVoteList = em.createQuery("SELECT v FROM Vote v WHERE v.user.id=:userId AND v.date=:today",Vote.class)
                 .setParameter("userId",userId)
                 .setParameter("today", LocalDate.now())
-                .setParameter("restaurantId",restaurantId)
                 .getResultList();
         Vote todayVote = DataAccessUtils.singleResult(todayVoteList);
         if(todayVote==null){
             em.persist(vote);
-            System.out.println("persist ");
             return vote;
         }else{
             vote.setId(todayVote.getId());
-            System.out.println("merge ");
             return em.merge(vote);
         }
-    }
-
-    @Transactional
-    public void gg(){
-        Vote vote = em.find(Vote.class,0);
-        vote.setDate(LocalDate.of(2017,04,11));
-        em.merge(vote);
     }
 
     public Vote getCurrent(int userId){
