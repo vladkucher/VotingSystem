@@ -20,7 +20,7 @@ import static ua.vld.votingsystem.util.ValidationUtil.checkIdConsistent;
 @RequestMapping(ProfileRestController.REST_URL)
 public class ProfileRestController {
     private final Logger log = LoggerFactory.getLogger(getClass());
-    static final String REST_URL = "/rest/profile";
+    static final String REST_URL = "/api/profile";
 
     @Autowired
     private UserService userService;
